@@ -2,7 +2,6 @@ use alloc::string::String;
 use alloc::string::ToString;
 use alloc::vec::Vec;
 
-
 #[derive(Debug, Clone, PartialEq)]
 pub struct Url {
     url: String,
@@ -38,8 +37,6 @@ impl Url {
         Ok(self.clone())
     }
 
-
-
     fn is_http(&mut self) -> bool {
         if self.url.contains("http://") {
             return true;
@@ -53,7 +50,7 @@ impl Url {
             .trim_start_matches("http://")
             .splitn(2, "/")
             .collect();
-        
+
         if let Some(index) = url_parts[0].find(':') {
             url_parts[0][..index].to_string()
         } else {
@@ -69,7 +66,7 @@ impl Url {
             .collect();
 
         if let Some(index) = url_parts[0].find(':') {
-            url_parts[0][index+1..].to_string()
+            url_parts[0][index + 1..].to_string()
         } else {
             "80".to_string()
         }
@@ -86,7 +83,7 @@ impl Url {
             return "".to_string();
         }
 
-        let path_and_searchpart: Vec<&str> = url_parts[1]. splitn(2, "?"). collect();
+        let path_and_searchpart: Vec<&str> = url_parts[1].splitn(2, "?").collect();
         path_and_searchpart[0].to_string()
     }
 
@@ -97,11 +94,11 @@ impl Url {
             .splitn(2, "/")
             .collect();
 
-        if url_parts.len() < 2{
+        if url_parts.len() < 2 {
             return "".to_string();
         }
 
-        let path_and_searchpart: Vec<&str> = url_parts[1]. splitn(2, "?"). collect();
+        let path_and_searchpart: Vec<&str> = url_parts[1].splitn(2, "?").collect();
         if path_and_searchpart.len() < 2 {
             "".to_string()
         } else {
@@ -124,7 +121,6 @@ impl Url {
     pub fn searchpart(&self) -> String {
         self.path.clone()
     }
-
 }
 
 #[cfg(test)]
@@ -139,7 +135,7 @@ mod tests {
             host: "example.com".to_string(),
             port: "80".to_string(),
             path: "".to_string(),
-            searchpart: "".to_string()
+            searchpart: "".to_string(),
         });
         assert_eq!(expected, Url::new(url).parse());
     }
@@ -160,7 +156,7 @@ mod tests {
     #[test]
     fn test_url_host_port_path() {
         let url = "http://example.com:8888/index.html".to_string();
-        let expected = Ok(Url{
+        let expected = Ok(Url {
             url: url.clone(),
             host: "example.com".to_string(),
             port: "8888".to_string(),
