@@ -21,9 +21,7 @@ impl Url {
             searchpart: "".to_string(),
         }
     }
-}
 
-impl Url {
     pub fn parse(&mut self) -> Result<Self, String> {
         if !self.is_http() {
             return Err("Only HTTP scheme is supported.".to_string());
