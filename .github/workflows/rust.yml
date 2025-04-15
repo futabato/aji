@@ -1,0 +1,28 @@
+name: Test aji
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build CUI
+      run: |
+        cargo build --features=cui --bin=aji_cui --no-default-features
+    - name: Run tests
+      run: |
+        cd core
+        cargo test
