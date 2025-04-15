@@ -1,8 +1,8 @@
-use alloc::string::String;
-use alloc::vec::Vec;
+use crate::alloc::string::ToString;
 use crate::error::Error;
 use alloc::format;
-use crate::alloc::string::ToString;
+use alloc::string::String;
+use alloc::vec::Vec;
 
 #[derive(Debug, Clone)]
 pub struct HttpResponse {
@@ -21,7 +21,7 @@ pub struct Header {
 
 impl Header {
     pub fn new(name: String, value: String) -> Self {
-        Self {name, value}
+        Self { name, value }
     }
 }
 
@@ -51,7 +51,7 @@ impl HttpResponse {
                 }
                 (headers, b)
             }
-            None => (Vec::new(), remaining)
+            None => (Vec::new(), remaining),
         };
 
         let statues: Vec<&str> = status_line.split(' ').collect();
@@ -88,7 +88,7 @@ impl HttpResponse {
     pub fn header_value(&self, name: &str) -> Result<String, String> {
         for h in &self.headers {
             if h.name == name {
-                return Ok(h.value.clone())
+                return Ok(h.value.clone());
             }
         }
 

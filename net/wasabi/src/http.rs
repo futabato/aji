@@ -6,8 +6,8 @@ use alloc::string::String;
 use alloc::vec::Vec;
 use core::fmt::Result;
 use noli::net::lookup_host;
-use noli::net::TcpStream;
 use noli::net::SocketAddr;
+use noli::net::TcpStream;
 
 pub struct HttpClient {}
 
