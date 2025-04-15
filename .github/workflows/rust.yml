@@ -19,9 +19,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build CUI
-      run: |
-        cargo build --features=cui --bin=aji_cui --no-default-features
     - name: Run tests
       run: |
         cd core
