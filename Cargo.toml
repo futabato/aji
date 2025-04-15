@@ -12,7 +12,7 @@ default = ["wasabi"]
 wasabi = ["dep:net_wasabi", "dep:noli"]
 
 [[bin]]
-name = "saba"
+name = "aji"
 path = "src/main.rs"
 required-features = ["wasabi"]
 
