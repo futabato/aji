@@ -1,10 +1,11 @@
+
 extern crate alloc;
 use aji_core::error::Error;
 use aji_core::http::HttpResponse;
 use alloc::format;
 use alloc::string::String;
+use alloc::string::ToString;
 use alloc::vec::Vec;
-use core::fmt::Result;
 use noli::net::lookup_host;
 use noli::net::SocketAddr;
 use noli::net::TcpStream;
@@ -48,10 +49,10 @@ impl HttpClient {
 
         request.push_str("Host: ");
         request.push_str(&host);
-        request.push_str('\n');
+        request.push('\n');
         request.push_str("Accept: text/html\n");
         request.push_str("Connection: close\n");
-        request.push_str('\n');
+        request.push('\n');
 
         let _bytes_written = match stream.write(request.as_bytes()) {
             Ok(bytes) => bytes,
