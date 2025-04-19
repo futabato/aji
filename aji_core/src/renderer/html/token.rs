@@ -1,6 +1,6 @@
+use crate::renderer::html::attribute::Attribute;
 use alloc::string::String;
 use alloc::vec::Vec;
-use crate::renderer::html::attribute::Attribute;
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct HtmlTokenizer {
     state: State,
@@ -11,7 +11,7 @@ pub struct HtmlTokenizer {
     buf: String,
 }
 
-impl HtmlTokenizer { 
+impl HtmlTokenizer {
     pub fn new(html: String) -> Self {
         Self {
             state: State::Data,
@@ -35,5 +35,5 @@ pub enum HtmlToken {
         tag: String,
     },
     Char(char),
-    Eof, 
+    Eof,
 }
