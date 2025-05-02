@@ -419,6 +419,66 @@ impl Iterator for HtmlTokenizer {
                         return Some(HtmlToken::Eof);
                     }
                 }
+
+                State::ScriptData => {
+                    if c == '<' {
+                        self.state = State::ScriptDataLessThanSign;
+                        continue;
+                    }
+
+                    if self.is_eof() {
+                        return Some(HtmlToken::Eof);
+                    }
+
+                    return Some(HtmlToken::Char(c));
+                }
+
+                State::ScriptDataLessThanSign => {
+                    if c == '/' {
+                        // 一時的なバッファを空文字でリセットする
+                        self.buf = String::new();
+                        self.state = State::ScriptDataEndTagOpen;
+                        continue;
+                    }
+
+                    self.reconsume = true;
+                    self.state = State::ScriptData;
+                    return Some(HtmlToken::Char('<'));
+                }
+
+                State::ScriptDataEndTagOpen => {
+                    if c.is_ascii_alphabetic() {
+                        self.reconsume = true;
+                        self.state = State::ScriptDataEndTagName;
+                        self.create_tag(false);
+                        continue;
+                    }
+
+                    self.reconsume = true;
+                    self.state = State::ScriptData;
+                    // 仕様では、"<"と"/"の2つの文字トークンを返すとなっているが、
+                    // ここでは、nextメソッドからは1つのトークンしか返せないため、
+                    // "<"のトークンのみを返す。
+                    return Some(HtmlToken::Char('<'));
+                }
+
+                State::ScriptDataEndTagName => {
+                    if c == '>' {
+                        self.state = State::ScriptData;
+                        return self.take_latest_token();
+                    }
+
+                    if c.is_ascii_alphabetic() {
+                        self.buf.push(c);
+                        self.append_tag_name(c.to_ascii_lowercase());
+                        continue;
+                    }
+
+                    self.state = State::TemporaryBuffer;
+                    self.buf = String::from("</") + &self.buf;
+                    self.buf.push(c);
+                    continue;
+                }
             }
         }
     }
