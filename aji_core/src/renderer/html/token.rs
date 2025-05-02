@@ -46,9 +46,7 @@ impl HtmlTokenizer {
                 attributes: Vec::new(),
             });
         } else {
-            self.latest_token = Some(HtmlToken::EndTag {
-                tag: String::new(),
-            });
+            self.latest_token = Some(HtmlToken::EndTag { tag: String::new() });
         }
     }
 
@@ -62,7 +60,7 @@ impl HtmlTokenizer {
                     self_closing: _,
                     attributes: _,
                 }
-                | HtmlToken::EndTag {ref mut tag} => tag.push(c),
+                | HtmlToken::EndTag { ref mut tag } => tag.push(c),
                 _ => panic!("`latest_token` shuld be either StartTag of EndTag"),
             }
         }
@@ -300,7 +298,7 @@ impl Iterator for HtmlTokenizer {
                         continue;
                     }
 
-                    if c== '=' {
+                    if c == '=' {
                         self.state = State::BeforeAttributeValue;
                         continue;
                     }
@@ -526,7 +524,7 @@ mod tests {
                 attributes: Vec::new(),
             },
             HtmlToken::EndTag {
-                tag: "body".to_string()
+                tag: "body".to_string(),
             },
         ];
         for e in expected {
@@ -557,7 +555,7 @@ mod tests {
         attr3.add_char('o', true);
         attr3.add_char('b', false);
         attr3.add_char('a', false);
-        attr3.add_char('r', false); 
+        attr3.add_char('r', false);
 
         let expected = [
             HtmlToken::StartTag {
@@ -566,7 +564,7 @@ mod tests {
                 attributes: vec![attr1, attr2, attr3],
             },
             HtmlToken::EndTag {
-                tag: "p".to_string()
+                tag: "p".to_string(),
             },
         ];
         for e in expected {
@@ -578,13 +576,11 @@ mod tests {
     fn test_self_closing_tag() {
         let html = "<img />".to_string();
         let mut tokenizer = HtmlTokenizer::new(html);
-        let expected = [
-            HtmlToken::StartTag {
-                tag: "img".to_string(),
-                self_closing: true,
-                attributes: Vec::new(),
-            },
-        ];
+        let expected = [HtmlToken::StartTag {
+            tag: "img".to_string(),
+            self_closing: true,
+            attributes: Vec::new(),
+        }];
         for e in expected {
             assert_eq!(Some(e), tokenizer.next());
         }
@@ -609,7 +605,7 @@ mod tests {
             HtmlToken::Char('e'),
             HtmlToken::Char(';'),
             HtmlToken::EndTag {
-                tag: "script".to_string()
+                tag: "script".to_string(),
             },
         ];
         for e in expected {
