@@ -2,6 +2,7 @@
 use alloc::rc::Rc;
 use alloc::rc::Weak;
 use core::cell::RefCell;
+use alloc::string::String;
 
 #[derive(Debug, Clone)]
 pub struct Node {
@@ -67,4 +68,14 @@ impl Node {
         self.next_sibling.as_ref().cloned()
     }
 
+}
+
+#[derive(Debug, Clone)]
+pub enum NodeKind {
+    // https://dom.spec.whatwg.org/#interface-document
+    Document,
+    // https://dom.spec.whatwg.org/#interface-element
+    Element(Element),
+    // https://dom.spec.whatwg.org/#interface-text
+    Text(String),
 }
