@@ -1,12 +1,11 @@
-
+use crate::renderer::html::attribute::Attribute;
+use alloc::format;
 use alloc::rc::Rc;
 use alloc::rc::Weak;
-use core::cell::RefCell;
 use alloc::string::String;
-use crate::renderer::html::attribute::Attribute;
 use alloc::vec::Vec;
+use core::cell::RefCell;
 use core::str::FromStr;
-use alloc::format;
 
 #[derive(Debug, Clone)]
 pub struct Node {
@@ -148,7 +147,6 @@ impl Element {
     pub fn kind(&self) -> ElementKind {
         self.kind
     }
-
 }
 
 #[derive(Debug, Clone)]
