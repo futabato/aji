@@ -1,3 +1,4 @@
+use crate::renderer::dom::node::ElementKind;
 use crate::renderer::dom::node::Node;
 use crate::renderer::dom::node::Window;
 use crate::renderer::html::token::HtmlToken;
@@ -101,6 +102,48 @@ impl HtmlParser {
                     }
                     self.insert_element("head", Vec::new());
                     self.mode = InsertionMode::InHead;
+                    continue;
+                }
+                InsertionMode::InHead => {
+                    match token {
+                        Some(HtmlToken::Char(c)) => {
+                            if c == ' ' || c == '\n' {
+                                self.insert_char(c);
+                                token = self.t.next();
+                                continue;
+                            }
+                        }
+                        Some(HtmlToken::StartTag {
+                            ref tag,
+                            self_closing: _,
+                            ref attributes,
+                        }) => {
+                            if tag == "style" || tag == "script" {
+                                self.insert_element(tag, attributes.to_vec());
+                                self.original_insertion_mode = self.mode;
+                                self.mode = InsertionMode::Text;
+                                token = self.t.next();
+                                continue;
+                            }
+                            // 仕様書には定められていないが、このブラウザは仕様をすべて実装しているわけではないため、
+                            // <head>が省略されているHTML文書を扱うために必要。これがないと、<head>が省略ｓれているHTML文書で無限ループが発生する。
+                            if tag == "body" {
+                                self.pop_until(ElementKind::Head);
+                                self.mode = InsertionModeLLAfterHead;
+                                continue;
+                            }
+                            if let Ok(_element_kind) = ElementKind::from_str(tag) {
+                                self.pop_until(ElementKind::Head);
+                                self.mode = InsertionMode::AfterHead;
+                                continue;
+                            }
+                        }
+                        Some(HtmlToken::Eof) | None => {
+                            return self.window.clone();
+                        }
+                    }
+                    // <meta>や<title>などのサポートｓていないタグは無視する。
+                    token = self.t.next();
                     continue;
                 }
             }
