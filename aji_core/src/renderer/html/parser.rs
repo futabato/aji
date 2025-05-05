@@ -1,10 +1,10 @@
 use crate::renderer::dom::node::Node;
 use crate::renderer::dom::node::Window;
+use crate::renderer::html::token::HtmlToken;
 use crate::renderer::html::token::HtmlTokenizer;
 use alloc::rc::Rc;
 use alloc::vec::Vec;
 use core::cell::RefCell;
-
 
 #[derive(Debug, Clone)]
 pub struct HtmlParser {
@@ -45,7 +45,37 @@ impl HtmlParser {
                     self.mode = InsertionMode::BeforeHtml;
                     continue;
                 }
+                InsertionMode::BeforeHtml => {
+                    match token {
+                        Some(HtmlToken::Char(c)) => {
+                            if c == ' ' || c == '\n' {
+                                token = self.t.next();
+                                continue;
+                            }
+                        }
+                        Some(HtmlToken::StartTag {
+                            ref tag,
+                            self_closing: _,
+                            ref attributes,
+                        }) => {
+                            if tag == "html" {
+                                self.insert_element(tag, attributes.to_vec());
+                                self.mode = InsertionMode::BeforeHead;
+                                token = self.t.next();
+                                continue;
+                            }
+                        }
+                        Some(HtmlToken::Eof) | None => {
+                            return self.window.clone();
+                        }
+                        _ => {}
+                    }
+                    self.insert_element("html", Vec::new());
+                    self.mode = InsertionMode::BeforeHead;
+                    continue;
+                }
             }
         }
+        self.window.clone()
     }
 }
