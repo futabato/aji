@@ -216,10 +216,10 @@ impl HtmlParser {
                         Some(HtmlToken::Eof) | None => {
                             return self.window.clone();
                         }
-                        Some(HtmlTokne::EndTag { ref tag }) => {
+                        Some(HtmlToken::EndTag { ref tag }) => {
                             if tag == "style" {
                                 self.pop_until(ElementKind::Style);
-                                self.mode = self.originl_insertion_mode;
+                                self.mode = self.original_insertion_mode;
                                 token = self.t.next();
                                 continue;
                             }
