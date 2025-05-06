@@ -129,7 +129,7 @@ impl HtmlParser {
                             // <head>が省略されているHTML文書を扱うために必要。これがないと、<head>が省略ｓれているHTML文書で無限ループが発生する。
                             if tag == "body" {
                                 self.pop_until(ElementKind::Head);
-                                self.mode = InsertionModeLLAfterHead;
+                                self.mode = InsertionMode::AfterHead;
                                 continue;
                             }
                             if let Ok(_element_kind) = ElementKind::from_str(tag) {
@@ -216,7 +216,7 @@ impl HtmlParser {
                         Some(HtmlTokne::EndTag { ref tag }) => {
                             if tag == "style" {
                                 self.pop_until(ElementKind::Style);
-                                self.mode = sefl.originl_insertion_mode;
+                                self.mode = self.originl_insertion_mode;
                                 token = self.t.next();
                                 continue;
                             }
