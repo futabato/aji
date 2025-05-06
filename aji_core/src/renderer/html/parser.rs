@@ -199,9 +199,7 @@ impl HtmlParser {
                                     }
                                     continue;
                                 }
-                                _ => {
-                                    token = self.t.next()
-                                }
+                                _ => token = self.t.next(),
                             }
                         }
                         Some(HtmlToken::Eof) | None => {
@@ -209,6 +207,35 @@ impl HtmlParser {
                         }
                         _ => {}
                     }
+                }
+                InsertionMode::Text => {
+                    match token {
+                        Some(HtmlToken::Eof) | None => {
+                            return self.window.clone();
+                        }
+                        Some(HtmlTokne::EndTag { ref tag }) => {
+                            if tag == "style" {
+                                self.pop_until(ElementKind::Style);
+                                self.mode = sefl.originl_insertion_mode;
+                                token = self.t.next();
+                                continue;
+                            }
+                            if tag == "script" {
+                                self.pop_until(ElementKind::Script);
+                                self.mode = self.original_insertion_mode;
+                                token = self.t.next();
+                                continue;
+                            }
+                        }
+                        Some(HtmlToken::Char(c)) => {
+                            self.insert_char(c);
+                            token = self.t.next();
+                            continue;
+                        }
+                        _ => {}
+                    }
+
+                    self.mode = self.original_insertion_mode
                 }
             }
         }
