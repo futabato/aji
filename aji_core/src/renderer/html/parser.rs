@@ -467,3 +467,17 @@ impl HtmlParser {
         self.stack_of_open_elements.push(node);
     }
 }
+
+// https://html.spec.whatwg.org/multipage/parsing.html#original-insertion-mode
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+pub enum InsertionMode {
+    Initial,
+    BeforeHtml,
+    BeforeHead,
+    InHead,
+    AfterHead,
+    InBody,
+    Text,
+    AfterBody,
+    AfterAfterBody,
+}
