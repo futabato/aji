@@ -13,7 +13,7 @@ pub struct Node {
     window: Weak<RefCell<Window>>,
     parent: Weak<RefCell<Node>>,
     first_child: Option<Rc<RefCell<Node>>>,
-    last_child: Rc<RefCell<Node>>,
+    last_child: Weak<RefCell<Node>>,
     previous_sibling: Weak<RefCell<Node>>,
     next_sibling: Option<Rc<RefCell<Node>>>,
 }
@@ -149,7 +149,7 @@ impl Element {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum ElementKind {
     // https://html.spec.whatwg.org/multipage/semantics.html#the-html-element
     Html,
