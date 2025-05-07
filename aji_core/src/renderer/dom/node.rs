@@ -166,6 +166,8 @@ pub enum ElementKind {
     // https://html.spec.whatwg.org/multipage/sections.html#the-h1-element
     H1,
     H2,
+    // https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element
+    A,
 }
 
 impl FromStr for ElementKind {
@@ -181,6 +183,7 @@ impl FromStr for ElementKind {
             "p" => Ok(ElementKind::P),
             "h1" => Ok(ElementKind::H1),
             "h2" => Ok(ElementKind::H2),
+            "a" => Ok(ElementKind::A),
             _ => Err(format!("unimplemented element name: {:?}", s)),
         }
     }
