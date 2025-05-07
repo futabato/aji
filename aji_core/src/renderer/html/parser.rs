@@ -193,8 +193,8 @@ impl HtmlParser {
                     match token {
                         Some(HtmlToken::StartTag {
                             ref tag,
-                            self_closing,
-                            attributes,
+                            self_closing: _,
+                            ref attributes,
                         }) => match tag.as_str() {
                             "p" => {
                                 self.insert_element(tag, attributes.to_vec());
