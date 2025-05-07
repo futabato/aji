@@ -10,6 +10,7 @@ use alloc::rc::Rc;
 use alloc::string::String;
 use alloc::vec::Vec;
 use core::cell::RefCell;
+use core::str::FromStr;
 
 #[derive(Debug, Clone)]
 pub struct HtmlParser {
@@ -139,6 +140,14 @@ impl HtmlParser {
                             if let Ok(_element_kind) = ElementKind::from_str(tag) {
                                 self.pop_until(ElementKind::Head);
                                 self.mode = InsertionMode::AfterHead;
+                                continue;
+                            }
+                        }
+                        Some(HtmlToken::EndTag { ref tag }) => {
+                            if tag == "head" {
+                                self.mode = InsertionMode::AfterHead;
+                                token = self.t.next();
+                                self.pop_until(ElementKind::Head);
                                 continue;
                             }
                         }
