@@ -203,7 +203,7 @@ impl HtmlParser {
                                 continue;
                             }
                         },
-                        Some(HtmlToklen::EndTag { ref tag }) => {
+                        Some(HtmlToken::EndTag { ref tag }) => {
                             match tag.as_str() {
                                 "body" => {
                                     self.mode = InsertionMode::AfterBody;
@@ -248,10 +248,14 @@ impl HtmlParser {
                                 _ => token = self.t.next(),
                             }
                         }
+                        Some(HtmlToken::Char(c)) => {
+                            self.insert_char(c);
+                            token = self.t.next();
+                            continue;
+                        }
                         Some(HtmlToken::Eof) | None => {
                             return self.window.clone();
-                        }
-                        _ => {}
+                        } // _ => {}
                     }
                 }
                 InsertionMode::Text => {
