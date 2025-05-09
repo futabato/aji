@@ -155,7 +155,7 @@ impl HtmlParser {
                             return self.window.clone();
                         }
                     }
-                    // <meta>や<title>などのサポートｓていないタグは無視する。
+                    // <meta>や<title>などのサポートしていないタグは無視する。
                     token = self.t.next();
                     continue;
                 }
