@@ -211,6 +211,9 @@ impl HtmlParser {
                                 token = self.t.next();
                                 continue;
                             }
+                            _ => {
+                                token = self.t.next();
+                            }
                         },
                         Some(HtmlToken::EndTag { ref tag }) => {
                             match tag.as_str() {
