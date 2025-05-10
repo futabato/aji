@@ -4,9 +4,9 @@
 extern crate alloc;
 
 use crate::alloc::string::ToString;
-use noli::*;
 use aji_core::browser::Browser;
 use aji_core::http::HttpResponse;
+use noli::*;
 
 static TEST_HTTP_RESPONSE: &str = r#"HTTP/1.1 200 OK
 Data: xx xx xx
@@ -26,10 +26,10 @@ Data: xx xx xx
 </html>
 "#;
 
-
 fn main() -> u64 {
     let browser = Browser::new();
-    let response = HttpResponse::new(TEST_HTTP_RESPONSE.to_string()).expect("failed to parse http response");
+    let response =
+        HttpResponse::new(TEST_HTTP_RESPONSE.to_string()).expect("failed to parse http response");
     let page = browser.borrow().current_page();
     let dom_string = page.borrow_mut().receive_response(response);
 
