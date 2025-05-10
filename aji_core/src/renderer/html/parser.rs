@@ -608,7 +608,7 @@ mod tests {
 
     #[test]
     fn text_multiple_nodes() {
-        let html = "<html><head></head><body><p><a foo=bar>text</a></body></html>".to_string();
+        let html = "<html><head></head><body><p><a foo=bar>text</a></p></body></html>".to_string();
         let t = HtmlTokenizer::new(html);
         let window = HtmlParser::new(t).construct_tree();
         let document = window.borrow().document();
