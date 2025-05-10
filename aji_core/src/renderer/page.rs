@@ -28,7 +28,20 @@ impl Page {
         self.browser = browser;
     }
 
-    pub fn receive_response(&mut self, html: String) {
+    pub fn receive_response(&mut self, response: HttpResponse) -> String {
+        self.create_frame(response.body());
+
+        // デバッグ用に DOM ツリーを文字列として返す
+        if let Some(frame) = &self.frame {
+            let dom = frame.borrow().document().clone();
+            let debug = convert_dom_to_string(&Some(dom));
+            return debug;
+        }
+
+        "".to_string()
+    }
+
+    pub fn create_frame(&mut self, html: String) {
         let html_tokenizer = HtmlTokenizer::new(html);
         let frame = HtmlParser::new(html_tokenizer).construct_tree();
         self.frame = Some(frame);

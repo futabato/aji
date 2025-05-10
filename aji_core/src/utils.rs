@@ -5,7 +5,7 @@ use alloc::string::String;
 use core::cell::RefCell;
 
 pub fn convert_dom_to_string(root: &Option<Rc<RefCell<Node>>>) -> String {
-    let mut result = String::new("\n");
+    let mut result = String::from("\n");
     convert_dom_to_string_internal(root, 0, &mut result);
     result
 }
