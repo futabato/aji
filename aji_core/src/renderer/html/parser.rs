@@ -444,7 +444,7 @@ impl HtmlParser {
         };
 
         // 現在参照しているノードがテキストノードの場合、そのノードに文字を追加する
-        if let NodeKind::Text(ref mut s) = current.borrow_mut().kind() {
+        if let NodeKind::Text(ref mut s) = current.borrow_mut().kind {
             s.push(c);
             return;
         }

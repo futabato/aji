@@ -20,7 +20,7 @@ fn convert_dom_to_string_internal(
             result.push_str(&" ".repeat(depth));
             result.push_str(&format!("{:?}", n.borrow().kind()));
             result.push('\n');
-            convert_dom_to_string_internal(&&n.borrow().first_child(), depth + 1, result);
+            convert_dom_to_string_internal(&n.borrow().first_child(), depth + 1, result);
             convert_dom_to_string_internal(&n.borrow().next_sibling(), depth, result);
         }
         None => (),
