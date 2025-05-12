@@ -11,7 +11,6 @@ use noli::*;
 static TEST_HTTP_RESPONSE: &str = r#"HTTP/1.1 200 OK
 Data: xx xx xx
 
-
 <html>
     <head></head>
     <body>
