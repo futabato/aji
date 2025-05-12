@@ -332,7 +332,7 @@ impl HtmlParser {
                         _ => {}
                     }
 
-                    // パースの失敗失敗
+                    // パースの失敗
                     self.mode = InsertionMode::InBody;
                 }
             }
