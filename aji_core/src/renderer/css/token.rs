@@ -57,7 +57,21 @@ impl Iterator for CssTokenizer {
             let c = self.input[self.pos];
 
             let token = match c {
-                // 次のトークンを決定する
+                '(' => CssToken::OpenParenthesis,
+                ')' => CssToken::CloseParenthesis,
+                ',' => CssToken::Delim(','),
+                '.' => CssToken::Delim('.'),
+                ':' => CssToken::Colon,
+                ';' => CssToken::SemiColon,
+                '{' => CssToken::OpenCurly,
+                '}' => CssToken::CloseCurly,
+                ' ' | '\n' => {
+                    self.pos += 1;
+                    continue;
+                }
+                _ => {
+                    unimplemented!("char {} is not supported yet", c);
+                }
             };
 
             self.pos += 1;
