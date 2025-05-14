@@ -69,6 +69,10 @@ impl Iterator for CssTokenizer {
                     self.pos += 1;
                     continue;
                 }
+                '"' | '\'' => {
+                    let value = self.consume_string_token();
+                    CssToken::StringToken(value)
+                }
                 _ => {
                     unimplemented!("char {} is not supported yet", c);
                 }
