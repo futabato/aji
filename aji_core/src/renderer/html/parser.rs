@@ -131,7 +131,7 @@ impl HtmlParser {
                                 continue;
                             }
                             // 仕様書には定められていないが、このブラウザは仕様をすべて実装しているわけではないため、
-                            // <head>が省略されているHTML文書を扱うために必要。これがないと、<head>が省略ｓれているHTML文書で無限ループが発生する。
+                            // <head>が省略されているHTML文書を扱うために必要。これがないと、<head>が省略されているHTML文書で無限ループが発生する。
                             if tag == "body" {
                                 self.pop_until(ElementKind::Head);
                                 self.mode = InsertionMode::AfterHead;
