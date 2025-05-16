@@ -206,4 +206,62 @@ mod tests {
         let mut t = CssTokenizer::new(style);
         assert!(t.next().is_none());
     }
+
+    #[test]
+    fn test_one_rule() {
+        let style = "p { color: red; }".to_string();
+        let mut t = CssTokenizer::new(style);
+        let expected = [
+            CssToken::Ident("p".to_string()),
+            CssToken::OpenCurly,
+            CssToken::Ident("color".to_string()),
+            CssToken::Colon,
+            CssToken::Ident("red".to_string()),
+            CssToken::SemiColon,
+            CssToken::CloseCurly,
+        ];
+        for e in expected {
+            assert_eq!(Some(e.clone()), t.next());
+        }
+        assert!(t.next().is_none());
+    }
+
+    #[test]
+    fn test_id_selector() {
+        let style = "#id { color: red; }".to_string();
+        let mut t = CssTokenizer::new(style);
+        let expected = [
+            CssToken::HashToken("#id".to_string()),
+            CssToken::OpenCurly,
+            CssToken::Ident("color".to_string()),
+            CssToken::Colon,
+            CssToken::Ident("red".to_string()),
+            CssToken::SemiColon,
+            CssToken::CloseCurly,
+        ];
+        for e in expected {
+            assert_eq!(Some(e.clone()), t.next());
+        }
+        assert!(t.next().is_none());
+    }
+
+    #[test]
+    fn test_class_selector() {
+        let style = ".class { color: red; }".to_string();
+        let mut t = CssTokenizer::new(style);
+        let expected = [
+            CssToken::Delim('.'),
+            CssToken::Ident("class".to_string()),
+            CssToken::OpenCurly,
+            CssToken::Ident("color".to_string()),
+            CssToken::Colon,
+            CssToken::Ident("red".to_string()),
+            CssToken::SemiColon,
+            CssToken::CloseCurly,
+        ];
+        for e in expected {
+            assert_eq!(Some(e.clone()), t.next());
+        }
+        assert!(t.next().is_none());
+    }
 }
