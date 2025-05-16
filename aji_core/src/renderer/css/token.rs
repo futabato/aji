@@ -62,6 +62,7 @@ impl CssTokenizer {
         s
     }
 
+    // https://www.w3.org/TR/css-syntax-3/#consume-a-numeric-token
     fn consume_numeric_token(&mut self) -> f64 {
         let mut num = 0f64;
         let mut floating = false;
@@ -92,6 +93,26 @@ impl CssTokenizer {
             }
         }
         num
+    }
+
+    // https://www.w3.org/TR/css-syntax-3/#consume-ident-like-token
+    // https://www.w3.org/TR/css-syntax-3/#consume-name
+    fn consume_ident_token(&mut self) -> String {
+        let mut s = String::new();
+        s.push(self.input[self.pos]);
+
+        loop {
+            self.pos += 1;
+            let c = self.input[self.pos];
+
+            match c {
+                'a'..='z' | 'A'..='Z' | '0'..='9' | '-' | '_' => {
+                    s.push(c);
+                }
+                _ => break,
+            }
+        }
+        s
     }
 }
 
@@ -129,6 +150,40 @@ impl Iterator for CssTokenizer {
                     self.pos -= 1;
                     t
                 }
+                '#' => {
+                    // 常に #ID 形式の ID セレクタとして扱う
+                    let value = self.consume_ident_token();
+                    self.pos -= 1;
+                    CssToken::HashToken(value)
+                }
+                '-' => {
+                    // 負の数は取り扱わないため、ハイフンは識別子の1つとして扱う
+                    let t = CssToken::Ident(self.consume_ident_token());
+                    self.pos -= 1;
+                    t
+                }
+                '@' => {
+                    // 次の3文字が識別子として有効な文字の場合、<at-keyword-token>トークンを作成して返す
+                    // それ以外の場合、<delim-token>トークンを返す
+                    if self.input[self.pos + 1].is_alphabetic()
+                        && self.input[self.pos + 2].is_alphabetic()
+                        && self.input[self.pos + 3].is_alphabetic()
+                    {
+                        // skip '@'
+                        self.pos += 1;
+                        let t = CssToken::AtKeyword(self.consume_ident_token());
+                        self.pos -= 1;
+                        t
+                    } else {
+                        CssToken::Delim('@')
+                    }
+                }
+                'a'..='z' | 'A'..='Z' | '_' => {
+                    let t = CssToken::Ident(self.consume_ident_token());
+                    self.pos -= 1;
+                    t
+                }
+
                 _ => {
                     unimplemented!("char {} is not supported yet", c);
                 }
