@@ -1,8 +1,8 @@
-use crate::renderer::css::token::CssTokenizer;
 use crate::renderer::css::token::CssToken;
-use core::iter::Peekable;
-use alloc::vec::Vec;
+use crate::renderer::css::token::CssTokenizer;
 use alloc::string::String;
+use alloc::vec::Vec;
+use core::iter::Peekable;
 
 pub type ComponentValue = CssToken;
 
@@ -31,8 +31,6 @@ pub struct QualifiedRule {
     pub declarations: Vec<Declaration>,
 }
 
-
-
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Selector {
     TypeSelector(String),
@@ -43,13 +41,13 @@ pub enum Selector {
 
 impl CssParser {
     pub fn new(t: CssTokenizer) -> Self {
-        Self {t: t.peekable()}
+        Self { t: t.peekable() }
     }
 }
 
 impl StyleSheet {
     pub fn new() -> Self {
-        Self { rules: Vec::new()}
+        Self { rules: Vec::new() }
     }
 
     pub fn set_rules(&mut self, rules: Vec<QualifiedRule>) {
