@@ -33,9 +33,13 @@ pub struct QualifiedRule {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Selector {
+    // https://www.w3.org/TR/selectors-4/#type-selectors
     TypeSelector(String),
+    // https://www.w3.org/TR/selectors-4/#class-html
     ClassSelector(String),
+    // https://www.w3.org/TR/selectors-4/#id-selectors
     IdSelector(String),
+    // パース中にエラーが起こったときに使用されるセレクタ
     UnknownSelector,
 }
 
