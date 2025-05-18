@@ -57,7 +57,7 @@ impl CssParser {
         sheet
     }
 
-    fn cunsume_list_of_rules(&mut self) -> Vec<QualifiedRule> {
+    fn consume_list_of_rules(&mut self) -> Vec<QualifiedRule> {
         // 空のベクタを作成する
         let mut rules = Vec::new();
 
@@ -78,7 +78,7 @@ impl CssParser {
                     let rule = self.consume_qualified_rule();
                     match rule {
                         Some(r) => rules.push(r),
-                        None => rules,
+                        None => return rules,
                     }
                 }
             }
@@ -97,7 +97,7 @@ impl CssParser {
                 // セレクタを解釈する
                 CssToken::OpenCurly => {
                     assert_eq!(self.t.next(), Some(CssToken::OpenCurly));
-                    rule.set_declarations(self.cunsume_list_of_declarations());
+                    rule.set_declarations(self.consume_list_of_declarations());
                     return Some(rule);
                 }
                 _ => {
@@ -190,6 +190,7 @@ impl CssParser {
                 CssToken::Colon => {}
                 _ => return None,
             },
+            None => return None,
         }
 
         // Declaration 構造体の値にコンポーネント値を設定する
