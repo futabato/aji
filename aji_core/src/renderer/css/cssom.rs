@@ -110,7 +110,7 @@ impl CssParser {
     fn consume_selector(&mut self) -> Selector {
         let token = match self.t.next() {
             Some(t) => t,
-            None  => panic!("should have a token but got None"),
+            None => panic!("should have a token but got None"),
         };
 
         match token {
@@ -176,7 +176,7 @@ impl CssParser {
 
     fn consume_declaration(&mut self) -> Option<Declaration> {
         if self.t.peek().is_none() {
-            return  None;
+            return None;
         }
 
         // Declaration 構造体を初期化する
@@ -189,7 +189,7 @@ impl CssParser {
             Some(token) => match token {
                 CssToken::Colon => {}
                 _ => return None,
-            }
+            },
         }
 
         // Declaration 構造体の値にコンポーネント値を設定する
