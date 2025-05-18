@@ -212,6 +212,7 @@ impl CssParser {
         }
     }
 
+    // https://www.w3.org/TR/css-syntax-3/#consume-component-value
     fn consume_component_value(&mut self) -> ComponentValue {
         self.t
             .next()
