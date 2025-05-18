@@ -263,3 +263,17 @@ impl Declaration {
         self.value = value;
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_empty() {
+        let style = "".to_string();
+        let t = CssTokenizer::new(style);
+        let cssom = CssParser::new(t).parse_stylesheet();
+
+        assert_eq!(cssom.rules.len(), 0);
+    }
+}
