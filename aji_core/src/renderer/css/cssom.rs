@@ -352,7 +352,7 @@ mod tests {
         let style = "p { content: \"Hey\"; } h1 {font-size: 40; color: blue; }".to_string();
         let t = CssTokenizer::new(style);
         let cssom = CssParser::new(t).parse_stylesheet();
-        
+
         let mut rule1 = QualifiedRule::new();
         rule1.set_selector(Selector::TypeSelector("p".to_string()));
         let mut declaration1 = Declaration::new();
@@ -379,5 +379,4 @@ mod tests {
             i += 1;
         }
     }
-
 }
