@@ -12,11 +12,7 @@ pub struct LayoutView {
 }
 
 impl LayoutView {
-    pub fn new(
-        root: Rc<RefCell<Node>>,
-        cssom: &StyleSheet,
-    ) -> Self {
-
+    pub fn new(root: Rc<RefCell<Node>>, cssom: &StyleSheet) -> Self {
         // レイアウトツリーは描画される要素だけを持つツリーなので、
         // <body> タグを取得し、その子要素以下をレイアウトツリーのノードに変換する
         let body_root = get_target_element_node(Some(root), ElementKind::Body);
@@ -28,7 +24,7 @@ impl LayoutView {
         tree.update_layout();
 
         tree
-    } 
+    }
 
     pub fn root(&self) -> Option<Rc<RefCell<LayoutObject>>> {
         self.root.clone()
