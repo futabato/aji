@@ -13,13 +13,15 @@ pub fn get_target_element_node(
 ) -> Option<Rc<RefCell<Node>>> {
     match node {
         Some(n) => {
-            if n.borrow().kind() == NodeKind::Element(Element::new(&element_kind.to_stiring(), Vec::new())) {
+            if n.borrow().kind()
+                == NodeKind::Element(Element::new(&element_kind.to_stiring(), Vec::new()))
+            {
                 return Some(n.clone());
             }
             let result1 = get_target_element_node(n.borrow().first_child(), element_kind);
             let result2 = get_target_element_node(n.borrow().next_sibling(), element_kind);
             if result1.is_none() && result2.is_none() {
-                return None
+                return None;
             }
             if result1.is_none() {
                 return result2;
