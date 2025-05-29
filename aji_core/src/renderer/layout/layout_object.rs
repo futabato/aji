@@ -99,15 +99,15 @@ impl LayoutObject {
     }
 }
 
-impl  LayoutPoint {
+impl LayoutPoint {
     pub fn new(x: i64, y: i64) -> Self {
-        Self { x, y}
+        Self { x, y }
     }
 
     pub fn x(&self) -> i64 {
         self.x
     }
-    
+
     pub fn y(&self) -> i64 {
         self.y
     }
@@ -141,5 +141,4 @@ impl LayoutSize {
     pub fn set_height(&mut self, height: i64) {
         self.height = height;
     }
-    
 }
