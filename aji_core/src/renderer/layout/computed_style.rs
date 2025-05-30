@@ -1,7 +1,7 @@
-use alloc::string::String;
-use alloc::string::ToString;
 use crate::error::Error;
 use alloc::format;
+use alloc::string::String;
+use alloc::string::ToString;
 #[derive(Debug, Clone, PartialEq)]
 pub struct ComputedStyle {
     background_color: Option<Color>,
@@ -76,8 +76,7 @@ impl ComputedStyle {
     }
 
     pub fn height(&self) -> f64 {
-        self.height
-            .expect("failed to access CSS property: height")
+        self.height.expect("failed to access CSS property: height")
     }
 
     pub fn set_width(&mut self, width: f64) {
@@ -85,10 +84,9 @@ impl ComputedStyle {
     }
 
     pub fn width(&self) -> f64 {
-        self.width
-            .expect("failed to access CSS property: width")
+        self.width.expect("failed to access CSS property: width")
     }
-} 
+}
 
 impl Color {
     pub fn from_name(name: &str) -> Result<Self, Error> {
