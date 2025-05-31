@@ -165,20 +165,20 @@ impl Color {
     }
 
     pub fn white() -> Self {
-        Self { 
+        Self {
             name: Some("white".to_string()),
             code: "#ffffff".to_string(),
         }
     }
 
     pub fn black() -> Self {
-        Self { 
+        Self {
             name: Some("black".to_string()),
             code: "#000000".to_string(),
         }
     }
 
-    pub fn code_u32(&self) -> u32{
+    pub fn code_u32(&self) -> u32 {
         u32::from_str_radix(self.code.trim_start_matches('#'), 16).unwrap()
     }
 }
