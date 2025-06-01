@@ -41,6 +41,12 @@ pub enum DisplayType {
     DisplayNone,
 }
 
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub enum TextDecoration {
+    None,
+    Underline,
+}
+
 impl ComputedStyle {
     pub fn new() -> Self {
         Self {
@@ -242,6 +248,18 @@ impl DisplayType {
                 "display type {:?} is not supported",
                 s
             ))),
+        }
+    }
+}
+
+impl TextDecoration {
+    fn default(node: &Rc<RefCell<Node>>) -> Self {
+        match &node.borrow().kind() {
+            NodeKind::Element(element) => match element.kind() {
+                ElementKind::A => TextDecoration::Underline,
+                _ => TextDecoration::None,
+            },
+            _ => TextDecoration::None,
         }
     }
 }
