@@ -1,10 +1,10 @@
+use crate::alloc::string::ToString;
+use crate::renderer::css::cssom::Selector;
 use crate::renderer::css::cssom::StyleSheet;
 use crate::renderer::dom::node::Node;
 use crate::renderer::dom::node::NodeKind;
 use crate::renderer::layout::computed_style::ComputedStyle;
 use crate::renderer::layout::computed_style::DisplayType;
-use crate::alloc::string::ToString;
-use crate::renderer::css::cssom::Selector;
 use alloc::rc::Rc;
 use alloc::rc::Weak;
 use core::alloc::Layout;
@@ -194,27 +194,27 @@ impl LayoutObject {
                     if e.kind() == *type_name {
                         return true;
                     }
-                false
-            }
-            Selector::ClassSelector(class_name) => {
-                for attr in &e.attributes() {
-                    if attr.name() == "class" &&attr.value() == *class_name {
-                        return true;
-                    }
+                    false
                 }
-                false
-            }
-            Selector::IdSelector(id_name) => {
-                for attr in &e.attributes() {
-                    if attr.name() == "id" && attr.value() == *id_name {
-                        return true;
+                Selector::ClassSelector(class_name) => {
+                    for attr in &e.attributes() {
+                        if attr.name() == "class" && attr.value() == *class_name {
+                            return true;
+                        }
                     }
+                    false
                 }
-                false
-            }
-            Selector::UnknownSelector => false,
-        },
-        _ => false,
-    }
+                Selector::IdSelector(id_name) => {
+                    for attr in &e.attributes() {
+                        if attr.name() == "id" && attr.value() == *id_name {
+                            return true;
+                        }
+                    }
+                    false
+                }
+                Selector::UnknownSelector => false,
+            },
+            _ => false,
+        }
     }
 }
